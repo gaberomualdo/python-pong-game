@@ -38,6 +38,7 @@ initial_y_position = (window_dimensions[1] - paddle_size[1]) / 2
 
 # player variables
 player_y_position = initial_y_position
+player_y_velocity = 0
 
 # AI variables
 ai_y_position = initial_y_position
@@ -55,6 +56,12 @@ def gameloop():
 	global frames_per_second
 	global game_canvas
 	global window_dimensions
+	global player_y_position
+	global paddle_size
+	global ai_y_position
+	global ball_diameter
+	global ball_position
+	global player_y_velocity
 
 	# call gameloop again in 100 milleseconds (gameloops is called every 100 MS)
 	window.after(1000 / frames_per_second, gameloop)
@@ -69,24 +76,49 @@ def gameloop():
 	game_canvas.create_rectangle(35, player_y_position, 35 + paddle_size[0], player_y_position + paddle_size[1], fill="#ffffff", outline="#ffffff")
 
 	# display AI paddle (35 pixels from right)
-	game_canvas.create_rectangle(window_dimensions[0] - 35, ai_y_position, (window_dimensions[0] - 35) - paddle_size[0], player_y_position + paddle_size[1], fill="#ffffff", outline="#ffffff")
+	game_canvas.create_rectangle(window_dimensions[0] - 35, ai_y_position, (window_dimensions[0] - 35) - paddle_size[0], ai_y_position + paddle_size[1], fill="#ffffff", outline="#ffffff")
 
 	# display ball
-	game_canvas.create_rectangle(ball_position[0], ball_position[1], ball_position[0] + ball_diameter, ball_position[1] + ball_diameter, fill="#ffffff", outline="#ffffff")	
+	game_canvas.create_rectangle(ball_position[0], ball_position[1], ball_position[0] + ball_diameter, ball_position[1] + ball_diameter, fill="#ffffff", outline="#ffffff")
+
+	# update player Y position and movement
+	player_y_position += player_y_velocity
+	
+	# set window boundaries for max and min position for paddle
+	if(player_y_position + paddle_size[1] > window_dimensions[1]):
+		player_y_position = window_dimensions[1] - paddle_size[1]
+	elif(player_y_position < 0):
+		player_y_position = 0
 
 # handle arrow keys keydown events
 def onKeyDown(e):
 	# declare use of global variable(s)
+	global player_y_velocity
 
-	# bind arrow keys to specific player movements
+	# bind arrow keys to player velocity changes
 	if(e.keysym == "Up"):
-		pass
+		# start movement up when up arrow is pressed down
+		player_y_velocity = -15
 	elif(e.keysym == "Down"):
-		pass
-		
+		# start movement down when down arrow is pressed down
+		player_y_velocity = 15
+
+# handle arrow keys keyup events
+def onKeyUp(e):
+	# declare use of global variable(s)
+	global player_y_position
+	global player_y_velocity
+
+	# bind arrow keys to player velocity change
+	if(e.keysym == "Up" or e.keysym == "Down"):
+		# stop movement when either arrow key is released
+		player_y_velocity = 0
 
 # connect keydown event to function
 window.bind("<KeyPress>", onKeyDown)
+
+# connect keyup event to function
+window.bind("<KeyRelease>", onKeyUp)
 
 # call gameloop
 gameloop()
