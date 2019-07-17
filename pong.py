@@ -6,6 +6,7 @@ import time
 import random
 import sys
 import math
+from copy import copy
 
 # create game window
 window = Tkinter.Tk()
@@ -42,15 +43,16 @@ player_y_velocity = 0
 
 # AI variables
 ai_y_position = initial_y_position
+ai_y_velocity = 0
 
 # ball variables
 ball_diameter = 15
 
 initial_ball_position = [(window_dimensions[0] - ball_diameter) / 2, (window_dimensions[1] - ball_diameter) / 2]
-initial_ball_velocity = [1, 10]
+initial_ball_velocity = [10, 10]
 
-ball_position = initial_ball_position
-ball_velocity = initial_ball_velocity
+ball_position = copy(initial_ball_position)
+ball_velocity = copy(initial_ball_velocity)
 
 # score variable
 score = [0, 0]
@@ -71,6 +73,7 @@ def gameloop():
 	global ball_position
 	global ball_velocity
 	global player_y_velocity
+	global ai_y_velocity
 
 	# call gameloop again in 100 milleseconds (gameloops is called every 100 MS)
 	window.after(1000 / frames_per_second, gameloop)
@@ -92,12 +95,24 @@ def gameloop():
 
 	# update player Y position and movement
 	player_y_position += player_y_velocity
+
+	# update AI Y position and movement
+	ai_y_position += ai_y_velocity
+
 	
-	# set window boundaries for max and min position for paddle
+	# set window boundaries for max and min position for paddles
+	
+	# player paddle
 	if(player_y_position + paddle_size[1] > window_dimensions[1]):
 		player_y_position = window_dimensions[1] - paddle_size[1]
 	elif(player_y_position < 0):
 		player_y_position = 0
+
+	# AI paddle
+	if(ai_y_position + paddle_size[1] > window_dimensions[1]):
+		ai_y_position = window_dimensions[1] - paddle_size[1]
+	elif(ai_y_position < 0):
+		ai_y_position = 0
 
 	# update ball position
 	ball_position[0] += ball_velocity[0]
@@ -109,10 +124,38 @@ def gameloop():
 	if(ball_position[1] >= window_dimensions[1] - ball_diameter or ball_position[1] <= 0):
 		ball_velocity[1] = -ball_velocity[1]
 
+	# left side and right side of screen --> update score accordingly and reset ball vars
+	if(ball_position[0] <= 0):
+		# point for player
+		score[0] += 1
+		
+		# print score (will change to text widget soon)
+		print str(score[0]) + ":" + str(score[1])
+
+		# reset ball vars
+		ball_position = copy(initial_ball_position)
+		ball_velocity = copy(initial_ball_velocity)
+
+	if(ball_position[0] >= window_dimensions[0] - ball_diameter):
+		# point for AI
+		score[1] += 1
+		
+		# print score (will change to text widget soon)
+		print str(score[0]) + ":" + str(score[1])
+
+		# reset ball vars
+		ball_position = copy(initial_ball_position)
+		ball_velocity = copy(initial_ball_velocity)
+
+	# paddle collision (also possibly one of the longest if statements you've seen in your life)
+	if(((ball_position[0] >= 35 and ball_position[0] <= 35 + paddle_size[0]) and (ball_position[1] + ball_diameter >= player_y_position and ball_position[1] <= player_y_position + paddle_size[1])) or ((ball_position[0] + ball_diameter <= window_dimensions[0] - 35 and ball_position[0] + ball_diameter >= (window_dimensions[0] - 35) - paddle_size[0]) and (ball_position[1] + ball_diameter >= ai_y_position and ball_position[1] <= ai_y_position + paddle_size[1]))):
+		ball_velocity[0] = -ball_velocity[0]
+
 # handle arrow keys keydown events
 def onKeyDown(e):
 	# declare use of global variable(s)
 	global player_y_velocity
+	global ai_y_velocity
 
 	# bind arrow keys to player velocity changes
 	if(e.keysym == "Up"):
@@ -122,16 +165,29 @@ def onKeyDown(e):
 		# start movement down when down arrow is pressed down
 		player_y_velocity = 15
 
+	# bind WASD arrow keys to "AI" velocity changes
+	if(e.keysym == "w"):
+		# start movement up when w key is pressed down
+		ai_y_velocity = -15
+	elif(e.keysym == "s"):
+		# start movement down when s key is pressed down
+		ai_y_velocity = 15
+
 # handle arrow keys keyup events
 def onKeyUp(e):
 	# declare use of global variable(s)
-	global player_y_position
 	global player_y_velocity
+	global ai_y_velocity
 
 	# bind arrow keys to player velocity change
 	if(e.keysym == "Up" or e.keysym == "Down"):
 		# stop movement when either arrow key is released
 		player_y_velocity = 0
+
+	# bind WASD arrow keys to "AI" velocity changes
+	if(e.keysym == "w" or e.keysym == "s"):
+		# stop movement when either w or s key is pressed down
+		ai_y_velocity = 0
 
 # connect keydown event to function
 window.bind("<KeyPress>", onKeyDown)
