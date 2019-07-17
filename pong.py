@@ -45,7 +45,15 @@ ai_y_position = initial_y_position
 
 # ball variables
 ball_diameter = 15
-ball_position = [(window_dimensions[0] - ball_diameter) / 2, (window_dimensions[1] - ball_diameter) / 2]
+
+initial_ball_position = [(window_dimensions[0] - ball_diameter) / 2, (window_dimensions[1] - ball_diameter) / 2]
+initial_ball_velocity = [1, 10]
+
+ball_position = initial_ball_position
+ball_velocity = initial_ball_velocity
+
+# score variable
+score = [0, 0]
 
 # delete useless global variables
 del initial_y_position
@@ -61,6 +69,7 @@ def gameloop():
 	global ai_y_position
 	global ball_diameter
 	global ball_position
+	global ball_velocity
 	global player_y_velocity
 
 	# call gameloop again in 100 milleseconds (gameloops is called every 100 MS)
@@ -89,6 +98,16 @@ def gameloop():
 		player_y_position = window_dimensions[1] - paddle_size[1]
 	elif(player_y_position < 0):
 		player_y_position = 0
+
+	# update ball position
+	ball_position[0] += ball_velocity[0]
+	ball_position[1] += ball_velocity[1]
+
+	# set window boundaries for ball
+
+	# top and bottom of screen
+	if(ball_position[1] >= window_dimensions[1] - ball_diameter or ball_position[1] <= 0):
+		ball_velocity[1] = -ball_velocity[1]
 
 # handle arrow keys keydown events
 def onKeyDown(e):
