@@ -11,21 +11,21 @@ The code is well commented, and only requires Python2 to be installed, however, 
 
 ## Download and Play
 
-  1. Make sure you have Python installed. Install Python at [python.org](https://www.python.org/downloads/). Most computers running macOS should have Python pre-installed. Check if you have Python installed by typing the command ```python``` and pressing enter in your command prompt or terminal. If a prompt like ```>>>``` shows up, then Python is installed.
+    1. Make sure you have Python installed. Install Python at [python.org](https://www.python.org/downloads/). Most computers running macOS should have Python pre-installed. Check if you have Python installed by typing the command ```python``` and pressing enter in your command prompt or terminal. If a prompt like ```>>>``` shows up, then Python is installed.
 
-  2. Python pong offers both two-player and one-player options: follow the directions accordingly for the option you choose.
+    2. Python pong offers both two-player and one-player options: follow the directions accordingly for the option you choose.
 
-    * <strong>For two-player game:</strong> Run the following command to download and play Python Pong two-player! Note that this will download a file called ```pong.py``` into your current working directory.
+        * <strong>For two-player game:</strong> Run the following command to download and play Python Pong two-player! Note that this will download a file called ```pong.py``` into your current working directory.
 
-    ```bash
-    curl https://xtrp.github.io/python-pong/pong_two_player.py -o pong.py && python pong.py
-    ```
+        ```bash
+        curl https://xtrp.github.io/python-pong/pong_two_player.py -o pong.py && python pong.py
+        ```
 
-    * <strong>For one-player game vs/AI:</strong> Run the following command to download and play Python Pong one-player! Note that this will download a file called ```pong.py``` into your current working directory.
+        * <strong>For one-player game vs/AI:</strong> Run the following command to download and play Python Pong one-player! Note that this will download a file called ```pong.py``` into your current working directory.
 
-    ```bash
-    curl https://xtrp.github.io/python-pong/pong_one_player.py -o pong.py && python pong.py
-    ```
+        ```bash
+        curl https://xtrp.github.io/python-pong/pong_one_player.py -o pong.py && python pong.py
+        ```
 
 ## Bugs or Issues
 
