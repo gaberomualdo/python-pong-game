@@ -41,9 +41,9 @@ initial_y_position = (window_dimensions[1] - paddle_size[1]) / 2
 player_y_position = initial_y_position
 player_y_velocity = 0
 
-# AI variables
-ai_y_position = initial_y_position
-ai_y_velocity = 0
+# player2 variables
+player2_y_position = initial_y_position
+player2_y_velocity = 0
 
 # ball variables
 ball_diameter = 15
@@ -54,7 +54,7 @@ initial_ball_velocity = [10, 10]
 ball_position = copy(initial_ball_position)
 ball_velocity = copy(initial_ball_velocity)
 
-# score variable
+# score variable and widget
 score = [0, 0]
 
 # delete useless global variables
@@ -68,12 +68,12 @@ def gameloop():
 	global window_dimensions
 	global player_y_position
 	global paddle_size
-	global ai_y_position
+	global player2_y_position
 	global ball_diameter
 	global ball_position
 	global ball_velocity
 	global player_y_velocity
-	global ai_y_velocity
+	global player2_y_velocity
 
 	# call gameloop again in 100 milleseconds (gameloops is called every 100 MS)
 	window.after(1000 / frames_per_second, gameloop)
@@ -87,18 +87,20 @@ def gameloop():
 	# display player paddle (35 pixels from left)
 	game_canvas.create_rectangle(35, player_y_position, 35 + paddle_size[0], player_y_position + paddle_size[1], fill="#ffffff", outline="#ffffff")
 
-	# display AI paddle (35 pixels from right)
-	game_canvas.create_rectangle(window_dimensions[0] - 35, ai_y_position, (window_dimensions[0] - 35) - paddle_size[0], ai_y_position + paddle_size[1], fill="#ffffff", outline="#ffffff")
+	# display player2 paddle (35 pixels from right)
+	game_canvas.create_rectangle(window_dimensions[0] - 35, player2_y_position, (window_dimensions[0] - 35) - paddle_size[0], player2_y_position + paddle_size[1], fill="#ffffff", outline="#ffffff")
 
 	# display ball
 	game_canvas.create_rectangle(ball_position[0], ball_position[1], ball_position[0] + ball_diameter, ball_position[1] + ball_diameter, fill="#ffffff", outline="#ffffff")
 
+	# display score (centered)
+	game_canvas.create_text(window_dimensions[0] / 2, 35, anchor="center", font="Monaco 28 bold", fill="#ffffff", text=str(score[0]) + " : " + str(score[1]))
+
 	# update player Y position and movement
 	player_y_position += player_y_velocity
 
-	# update AI Y position and movement
-	ai_y_position += ai_y_velocity
-
+	# update player2 Y position and movement
+	player2_y_position += player2_y_velocity
 	
 	# set window boundaries for max and min position for paddles
 	
@@ -108,11 +110,11 @@ def gameloop():
 	elif(player_y_position < 0):
 		player_y_position = 0
 
-	# AI paddle
-	if(ai_y_position + paddle_size[1] > window_dimensions[1]):
-		ai_y_position = window_dimensions[1] - paddle_size[1]
-	elif(ai_y_position < 0):
-		ai_y_position = 0
+	# player2 paddle
+	if(player2_y_position + paddle_size[1] > window_dimensions[1]):
+		player2_y_position = window_dimensions[1] - paddle_size[1]
+	elif(player2_y_position < 0):
+		player2_y_position = 0
 
 	# update ball position
 	ball_position[0] += ball_velocity[0]
@@ -129,33 +131,27 @@ def gameloop():
 		# point for player
 		score[0] += 1
 		
-		# print score (will change to text widget soon)
-		print str(score[0]) + ":" + str(score[1])
-
 		# reset ball vars
 		ball_position = copy(initial_ball_position)
 		ball_velocity = copy(initial_ball_velocity)
 
 	if(ball_position[0] >= window_dimensions[0] - ball_diameter):
-		# point for AI
+		# point for player2
 		score[1] += 1
-		
-		# print score (will change to text widget soon)
-		print str(score[0]) + ":" + str(score[1])
 
 		# reset ball vars
 		ball_position = copy(initial_ball_position)
 		ball_velocity = copy(initial_ball_velocity)
 
 	# paddle collision (also possibly one of the longest if statements you've seen in your life)
-	if(((ball_position[0] >= 35 and ball_position[0] <= 35 + paddle_size[0]) and (ball_position[1] + ball_diameter >= player_y_position and ball_position[1] <= player_y_position + paddle_size[1])) or ((ball_position[0] + ball_diameter <= window_dimensions[0] - 35 and ball_position[0] + ball_diameter >= (window_dimensions[0] - 35) - paddle_size[0]) and (ball_position[1] + ball_diameter >= ai_y_position and ball_position[1] <= ai_y_position + paddle_size[1]))):
+	if(((ball_position[0] >= 35 and ball_position[0] <= 35 + paddle_size[0]) and (ball_position[1] + ball_diameter >= player_y_position and ball_position[1] <= player_y_position + paddle_size[1])) or ((ball_position[0] + ball_diameter <= window_dimensions[0] - 35 and ball_position[0] + ball_diameter >= (window_dimensions[0] - 35) - paddle_size[0]) and (ball_position[1] + ball_diameter >= player2_y_position and ball_position[1] <= player2_y_position + paddle_size[1]))):
 		ball_velocity[0] = -ball_velocity[0]
 
 # handle arrow keys keydown events
 def onKeyDown(e):
 	# declare use of global variable(s)
 	global player_y_velocity
-	global ai_y_velocity
+	global player2_y_velocity
 
 	# bind arrow keys to player velocity changes
 	if(e.keysym == "w"):
@@ -165,29 +161,29 @@ def onKeyDown(e):
 		# start movement down when down arrow is pressed down
 		player_y_velocity = 15
 
-	# bind WASD arrow keys to "AI" velocity changes
+	# bind WASD arrow keys to player2 velocity changes
 	if(e.keysym == "Up"):
 		# start movement up when w key is pressed down
-		ai_y_velocity = -15
+		player2_y_velocity = -15
 	elif(e.keysym == "Down"):
 		# start movement down when s key is pressed down
-		ai_y_velocity = 15
+		player2_y_velocity = 15
 
 # handle arrow keys keyup events
 def onKeyUp(e):
 	# declare use of global variable(s)
 	global player_y_velocity
-	global ai_y_velocity
+	global player2_y_velocity
 
 	# bind arrow keys to player velocity change
 	if(e.keysym == "w" or e.keysym == "s"):
 		# stop movement when either arrow key is released
 		player_y_velocity = 0
 
-	# bind WASD arrow keys to "AI" velocity changes
+	# bind WASD arrow keys to player2 velocity changes
 	if(e.keysym == "Up" or e.keysym == "Down"):
 		# stop movement when either w or s key is pressed down
-		ai_y_velocity = 0
+		player2_y_velocity = 0
 
 # connect keydown event to function
 window.bind("<KeyPress>", onKeyDown)
