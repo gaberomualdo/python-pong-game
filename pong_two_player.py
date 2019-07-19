@@ -49,7 +49,7 @@ player2_y_velocity = 0
 ball_diameter = 15
 
 initial_ball_position = [(window_dimensions[0] - ball_diameter) / 2, (window_dimensions[1] - ball_diameter) / 2]
-initial_ball_velocity = [10, 0]
+initial_ball_velocity = [10, 10]
 
 ball_position = copy(initial_ball_position)
 ball_velocity = copy(initial_ball_velocity)
