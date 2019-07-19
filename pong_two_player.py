@@ -158,18 +158,18 @@ def onKeyDown(e):
 	global ai_y_velocity
 
 	# bind arrow keys to player velocity changes
-	if(e.keysym == "Up"):
+	if(e.keysym == "w"):
 		# start movement up when up arrow is pressed down
 		player_y_velocity = -15
-	elif(e.keysym == "Down"):
+	elif(e.keysym == "s"):
 		# start movement down when down arrow is pressed down
 		player_y_velocity = 15
 
 	# bind WASD arrow keys to "AI" velocity changes
-	if(e.keysym == "w"):
+	if(e.keysym == "Up"):
 		# start movement up when w key is pressed down
 		ai_y_velocity = -15
-	elif(e.keysym == "s"):
+	elif(e.keysym == "Down"):
 		# start movement down when s key is pressed down
 		ai_y_velocity = 15
 
@@ -180,12 +180,12 @@ def onKeyUp(e):
 	global ai_y_velocity
 
 	# bind arrow keys to player velocity change
-	if(e.keysym == "Up" or e.keysym == "Down"):
+	if(e.keysym == "w" or e.keysym == "s"):
 		# stop movement when either arrow key is released
 		player_y_velocity = 0
 
 	# bind WASD arrow keys to "AI" velocity changes
-	if(e.keysym == "w" or e.keysym == "s"):
+	if(e.keysym == "Up" or e.keysym == "Down"):
 		# stop movement when either w or s key is pressed down
 		ai_y_velocity = 0
 
