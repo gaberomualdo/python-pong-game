@@ -17,15 +17,15 @@ The code is well commented, and only requires Python2 to be installed, however, 
 
     * **For two-player game:** Run the following command to download and play Python Pong two-player! Note that this will download a file called ```pong.py``` into your current working directory.
 
-    ```bash
-    curl https://xtrp.github.io/python-pong/pong_two_player.py -o pong.py && python pong.py
-    ```
+        ```bash
+        curl https://xtrp.github.io/python-pong/pong_two_player.py -o pong.py && python pong.py
+        ```
 
     * **For one-player game vs/AI:** Run the following command to download and play Python Pong one-player! Note that this will download a file called ```pong.py``` into your current working directory.
 
-    ```bash
-    curl https://xtrp.github.io/python-pong/pong_one_player.py -o pong.py && python pong.py
-    ```
+        ```bash
+        curl https://xtrp.github.io/python-pong/pong_one_player.py -o pong.py && python pong.py
+        ```
 
 ## Bugs or Issues
 
