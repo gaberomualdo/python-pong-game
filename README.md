@@ -9,6 +9,12 @@ The game is just like the original: the classic digital 2D table tennis game. Tw
 
 The code is well commented, and only requires Python2 to be installed, however, it does use Tkinter, which should come pre-installed with Python2, but may not be for various reasons. Additional download information is below.
 
+## Basic Instructions
+
+In the two-player version, the first player (left paddle) uses the "W" and "S" keys to move up and down, respectively. The second player (right paddle) uses the up and down arrow keys to move up and down, respectively.
+
+In the one-player version, the player is the left paddle, and uses the "W" and "S" keys to move up and down, respectively.
+
 ## Download and Play
 
 1. Make sure you have Python installed. Install Python at [python.org](https://www.python.org/downloads/). Most computers running macOS should have Python pre-installed. Check if you have Python installed by typing the command ```python``` and pressing enter in your command prompt or terminal. If a prompt like ```>>>``` shows up, then Python is installed.
