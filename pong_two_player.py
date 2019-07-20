@@ -11,7 +11,7 @@ from copy import copy
 window = Tkinter.Tk()
 
 # create window size and set no-resize option
-window_dimensions = [625, 625]
+window_dimensions = [800, 625]
 window.geometry(str(window_dimensions[0]) + "x" + str(window_dimensions[1]))
 window.resizable(0, 0)
 
@@ -93,7 +93,10 @@ def gameloop():
 	game_canvas.create_rectangle(ball_position[0], ball_position[1], ball_position[0] + ball_diameter, ball_position[1] + ball_diameter, fill="#ffffff", outline="#ffffff")
 
 	# display score (centered)
-	game_canvas.create_text(window_dimensions[0] / 2, 35, anchor="center", font="Monaco 28 bold", fill="#ffffff", text=str(score[0]) + " : " + str(score[1]))
+	game_canvas.create_text(window_dimensions[0] / 2, 35, anchor="center", font="Monaco 28 bold", fill="#ffffff", text=str(score[0]) + "   " + str(score[1]))
+
+	# display center separator line
+	game_canvas.create_line((window_dimensions[0] / 2) , 0, (window_dimensions[0] / 2), window_dimensions[1], fill="#ffffff", dash=(6, 10), width=3)
 
 	# update player Y position and movement
 	player_y_position += player_y_velocity
