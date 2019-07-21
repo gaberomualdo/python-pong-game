@@ -205,8 +205,6 @@ def onKeyUp(e):
 		# stop movement when either w or s key is pressed down
 		player2_y_velocity = 0
 
-	# else, revert display 
-
 # connect keydown event to function
 window.bind("<KeyPress>", onKeyDown)
 
