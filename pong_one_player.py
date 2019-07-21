@@ -48,7 +48,7 @@ ai_y_velocity = 0
 ball_diameter = 15
 
 initial_ball_position = [(window_dimensions[0] - 35 - paddle_size[0]) - (int(window_dimensions[1] / 2)), ((window_dimensions[1] - ball_diameter) / 2) - (int(window_dimensions[1] / 2))]
-initial_ball_velocity = [10, 10]
+initial_ball_velocity = [12, 12]
 
 ball_position = copy(initial_ball_position)
 ball_velocity = copy(initial_ball_velocity)
@@ -164,14 +164,27 @@ def gameloop():
 		optimal_position = optimalPaddlePosition(ball_velocity, ball_position, ball_diameter, paddle_size)
 
 	# paddle collision (also possibly one of the longest if statements you've seen in your life)
-	if(((ball_position[0] >= 35 and ball_position[0] <= 35 + paddle_size[0]) and (ball_position[1] + ball_diameter >= player_y_position and ball_position[1] <= player_y_position + paddle_size[1])) or ((ball_position[0] + ball_diameter <= window_dimensions[0] - 35 and ball_position[0] + ball_diameter >= (window_dimensions[0] - 35) - paddle_size[0]) and (ball_position[1] + ball_diameter >= ai_y_position and ball_position[1] <= ai_y_position + paddle_size[1]))):
+	if(((ball_position[0] >= 35 and ball_position[0] <= 35 + paddle_size[0]) and (ball_position[1] + ball_diameter >= player_y_position and ball_position[1] <= player_y_position + paddle_size[1]) and ball_velocity[0] <= 0) or ((ball_position[0] + ball_diameter <= window_dimensions[0] - 35 and ball_position[0] + ball_diameter >= (window_dimensions[0] - 35) - paddle_size[0]) and (ball_position[1] + ball_diameter >= ai_y_position and ball_position[1] <= ai_y_position + paddle_size[1]) and ball_velocity[0] >= 0)):
 		ball_velocity[0] = -ball_velocity[0]
+
+		# switch Y velocity if collision was on top or bottom sides of paddle
+
+		# player paddle
+		if(ball_velocity[0] >= 0):
+			if((ball_position[1] + ball_diameter <= player_y_position + paddle_size[0] and ball_velocity[1] >= 0) or (ball_position[1] >= player_y_position + paddle_size[1] - paddle_size[0] and ball_velocity[1] <= 0)):
+				ball_velocity[1] = -ball_velocity[1]
+
+		# ai paddle
+		if(ball_velocity[0] <= 0):
+			if((ball_position[1] + ball_diameter <= ai_y_position + paddle_size[0] and ball_velocity[1] >= 0) or (ball_position[1] >= ai_y_position + paddle_size[1] - paddle_size[0] and ball_velocity[1] <= 0)):
+				ball_velocity[1] = -ball_velocity[1]
 
 		# update ai optimal position based on velocity change
 		if(ball_velocity[0] <= 0):
 			optimal_position = False
 		else:
 			optimal_position = optimalPaddlePosition(ball_velocity, ball_position, ball_diameter, paddle_size)
+
 	
 	# move ai according to function when ball is approaching
 	if(ball_position[0] > window_dimensions[0] * 0.65):
