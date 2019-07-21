@@ -105,7 +105,6 @@ def gameloop():
 	# display instructions
 	if(display_instructions):
 		game_canvas.create_text((window_dimensions[0] / 2) - 30, window_dimensions[1] - 40, anchor="ne", font="Monaco 16 bold", fill="#ffffff", text="Move w/WASD")
-		game_canvas.create_text((window_dimensions[0] / 2) + 30, window_dimensions[1] - 40, anchor="nw", font="Monaco 16 bold", fill="#ffffff", text="Move w/Arrows")
 
 	# update player Y position and movement
 	player_y_position += player_y_velocity
