@@ -59,6 +59,9 @@ score = [0, 0]
 # delete useless global variables
 del initial_y_position
 
+# display instructions variable
+display_instructions = True
+
 # gameloop
 def gameloop():
 	# declare use of global variables
@@ -73,6 +76,7 @@ def gameloop():
 	global ball_velocity
 	global player_y_velocity
 	global player2_y_velocity
+	global display_instructions
 
 	# call gameloop again in 100 milleseconds (gameloops is called every 100 MS)
 	window.after(1000 / frames_per_second, gameloop)
@@ -97,6 +101,11 @@ def gameloop():
 
 	# display center separator line
 	game_canvas.create_line((window_dimensions[0] / 2) , 0, (window_dimensions[0] / 2), window_dimensions[1], fill="#ffffff", dash=(6, 10), width=3)
+
+	# display instructions
+	if(display_instructions):
+		game_canvas.create_text((window_dimensions[0] / 2) - 30, window_dimensions[1] - 40, anchor="ne", font="Monaco 16 bold", fill="#ffffff", text="Move w/WASD")
+		game_canvas.create_text((window_dimensions[0] / 2) + 30, window_dimensions[1] - 40, anchor="nw", font="Monaco 16 bold", fill="#ffffff", text="Move w/Arrows")
 
 	# update player Y position and movement
 	player_y_position += player_y_velocity
@@ -154,6 +163,11 @@ def onKeyDown(e):
 	# declare use of global variable(s)
 	global player_y_velocity
 	global player2_y_velocity
+	global display_instructions
+
+	# record current player velocities
+	player_y_velocity_current = player_y_velocity
+	player2_y_velocity_current = player2_y_velocity
 
 	# bind arrow keys to player velocity changes
 	if(e.keysym == "w"):
@@ -170,6 +184,10 @@ def onKeyDown(e):
 	elif(e.keysym == "Down"):
 		# start movement down when s key is pressed down
 		player2_y_velocity = 15
+	
+	# turn off instructions if either paddle has moved
+	if(player_y_velocity_current != player_y_velocity or player2_y_velocity_current != player2_y_velocity):
+		display_instructions = False
 
 # handle arrow keys keyup events
 def onKeyUp(e):
@@ -186,6 +204,8 @@ def onKeyUp(e):
 	if(e.keysym == "Up" or e.keysym == "Down"):
 		# stop movement when either w or s key is pressed down
 		player2_y_velocity = 0
+
+	# else, revert display 
 
 # connect keydown event to function
 window.bind("<KeyPress>", onKeyDown)
