@@ -33,6 +33,12 @@ In the one-player version, the player is the left paddle, and uses the "W" and "
         curl https://xtrp.github.io/python-pong/pong_one_player.py -o pong.py && python pong.py
         ```
 
+## One-Player AI Behind-the-Scenes
+
+In the one player version, the AI (right paddle), uses the ```optimalPaddlePosition``` function to fetch the calculated projected position of where the ball will land. The AI then uses that data to move its paddle to hit the ball.
+
+The ```optimalPaddlePosiiton``` function (calculates projected landing position of ball) works by using ball speed, position, and size to simulate the game and get the ball position at the exact point where it lands. It adds randomization to make the AI slightly imperfect (or else the AI would be unbeatable), and you can change this by editing the content of the ```if``` statement defined on line 225, or changing the condition of that same ```if``` statement. See comments within code for more details.
+
 ## Bugs or Issues
 
 If you find a bug or have an issue with Python Pong, feel free to [Submit an Issue](https://github.com/xtrp/python-pong/issues/new).

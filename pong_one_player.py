@@ -218,14 +218,15 @@ def optimalPaddlePosition(local_ball_velocity, local_ball_position, local_ball_d
 		if(local_ball_position[1] >= window_dimensions[1] - local_ball_diameter or local_ball_position[1] <= 0):
 			local_ball_velocity[1] = -local_ball_velocity[1]
 	
-	# return paddle with location of ballafter simulation (optimal paddle position to hit ball), with a random number added 75% of the time to make ai not perfect
+	# return paddle with location of ballafter simulation (optimal paddle position to hit ball), with a random number added 55% of the time to make ai imperfect
 	local_optimal_position = local_ball_position[1]
 
-	# add randomization
-	if(random.randint(0, 100) <= 75):
-		local_optimal_position += random.randint(-60, 60)
+	# add randomization 55% of the time
+	if(random.randint(0, 100) <= 55):
+		# add either -20 or 20 (randomly chosen) to optimal position variable
+		local_optimal_position += [-20, 20][random.randint(0, 1)]
 	
-	# make sure optimal_position is not invalid (position isn't within window boundaries)
+	# make sure optimal position variable is valid (position isn't within window boundaries)
 	
 	# bottom boundary
 	if(local_optimal_position + local_ball_diameter > window_dimensions[1]):
