@@ -22,7 +22,7 @@ window.title("Pong Game")
 window.protocol("WM_DELETE_WINDOW", sys.exit)
 
 # choose fps for game
-frames_per_second = 10
+frames_per_second = 30
 
 # create game canvas
 game_canvas = Tkinter.Canvas(window, width=window_dimensions[0], height=window_dimensions[1], bd=0, highlightthickness=0)
