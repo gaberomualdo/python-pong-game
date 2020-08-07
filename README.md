@@ -1,6 +1,5 @@
 # Python Pong
 
-The classic pong game made in [Python Tkinter](https://docs.python.org/2/library/tkinter.html). Written for Python2 by [Fred Adams](https://xtrp.io/). Licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
 ![Python Pong Graphic](graphic.jpg)
 
 ## Overview
