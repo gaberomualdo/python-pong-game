@@ -1,14 +1,14 @@
 # this program is written for Python2
 
 # imports
-import Tkinter
+import tkinter
 import time
 import random
 import sys
 from copy import copy
 
 # create game window
-window = Tkinter.Tk()
+window = tkinter.Tk()
 
 # create window size and set no-resize option
 window_dimensions = [800, 625]
@@ -25,7 +25,7 @@ window.protocol("WM_DELETE_WINDOW", sys.exit)
 frames_per_second = 30
 
 # create game canvas
-game_canvas = Tkinter.Canvas(window, width=window_dimensions[0], height=window_dimensions[1], bd=0, highlightthickness=0)
+game_canvas = tkinter.Canvas(window, width=window_dimensions[0], height=window_dimensions[1], bd=0, highlightthickness=0)
 game_canvas.pack()
 
 # create game variables
@@ -79,7 +79,7 @@ def gameloop():
 	global display_instructions
 
 	# call gameloop again in 100 milleseconds (gameloops is called every 100 MS)
-	window.after(1000 / frames_per_second, gameloop)
+	window.after(int(1000 / frames_per_second), gameloop)
 
 	# clear canvas
 	game_canvas.delete("all")
